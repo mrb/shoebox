@@ -19,7 +19,12 @@ var (
 )
 
 func GetId(w http.ResponseWriter, req *http.Request) {
-	id, _ := noeqc.GenOne()
+	id, err := noeqc.GenOne()
+	if err != nil {
+		log.Print(" [GET] 500 Server Error")
+		http.Error(w, "Server Error", 500)
+		return
+	}
 	stringId := fmt.Sprintf("%d", id)
 
 	log.Print(" [GET] {id: ", stringId, "}")
@@ -37,7 +42,9 @@ func PostData(w http.ResponseWriter, req *http.Request) {
 	_, err := riakc.StoreObject("data", stringId, stringBody)
 
 	if err != nil {
-		log.Print(err)
+		log.Print("[POST] 500 Server Error")
+		http.Error(w, "Server Error", 500)
+		return
 	}
 
 	log.Print("[POST] {id: ", stringId, "}, {body: ", stringBody, "}")
@@ -50,7 +57,9 @@ func GetData(w http.ResponseWriter, req *http.Request) {
 
 	data, err := riakc.FetchObject("data", stringId)
 	if err != nil {
-		log.Print(err)
+		log.Print(" [GET] 404 Not Found", string(data))
+		http.NotFound(w, req)
+		return
 	}
 
 	log.Print(" [GET] ", string(data))
