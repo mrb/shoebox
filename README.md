@@ -19,7 +19,7 @@ func PostData(w http.ResponseWriter, req *http.Request)
 func GetData(w http.ResponseWriter, req *http.Request)
   // Get the data you've posted
   // [GET] /data/:id
-  // Success response: {'id': '209130139663990784'}
+  // Success response: *Your JSON Data*
   // Failure response: 404 Not Found
 ```
 
