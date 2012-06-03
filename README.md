@@ -31,6 +31,8 @@ Listening on port 4444.
 
 riakpbc is (c) Michael R. Bernstein, 2012
 
+`pat` and `noeqd` are awesome Go libraries by Blake Mizerany. Check his work out here: https://github.com/bmizerany
+
 ### License
 
 shoebox is distributed under the MIT License, see `LICENSE` file for details.
