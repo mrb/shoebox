@@ -45,6 +45,19 @@ func PostData(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, stringId)
 }
 
+func GetData(w http.ResponseWriter, req *http.Request) {
+	stringId := req.URL.Query().Get(":id")
+
+	data, err := riakc.FetchObject("data", stringId)
+	if err != nil {
+		log.Print(err)
+	}
+
+	log.Print(" [GET] ", string(data))
+
+	io.WriteString(w, string(data))
+}
+
 func main() {
 	riakc, err = riakpbc.New("127.0.0.1:8087", 1e8, 1e8)
 	if err != nil {
@@ -67,6 +80,7 @@ func main() {
 	m := pat.New()
 	m.Get("/id/new", http.HandlerFunc(GetId))
 	m.Post("/data", http.HandlerFunc(PostData))
+	m.Get("/data/:id", http.HandlerFunc(GetData))
 
 	http.Handle("/", m)
 
